@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { displayImage } from "../utils/requests";
 import axios from "../utils/axios";
+import { Grid, Typography } from "@material-ui/core";
 
 const Banner = ({ fetchUrl }) => {
   const [movies, setMovies] = useState([]);
@@ -33,18 +34,20 @@ const Banner = ({ fetchUrl }) => {
   }
 
   return randomMovie ? (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div style={{ width: "50vw" }}>
-        <h2>{randomMovie.title || randomMovie.name}</h2>
-        <p>{randomMovie.overview}</p>
-      </div>
-      <div style={{ width: "50vw" }}>
-        <img
-          style={{ width: "100%" }}
-          src={displayImage(randomMovie.backdrop_path)}
-          alt={randomMovie.title || randomMovie.name}
-        />
-      </div>
+    <div>
+      <Grid container>
+        <Grid item xs={6} style={{padding:"10px"}}>
+            <Typography variant="h4">{randomMovie.title || randomMovie.name}</Typography>
+            <Typography>{randomMovie.overview}</Typography>
+        </Grid>
+        <Grid item xs={6} style={{textAlign:"center"}}>
+          <img
+            style={{ width: "90%", padding:"10px 0px 5px 0px" }}
+            src={displayImage(randomMovie.backdrop_path)}
+            alt={randomMovie.title || randomMovie.name}
+          />
+        </Grid>
+      </Grid>
     </div>
   ) : (
     <h2>Loading...</h2>

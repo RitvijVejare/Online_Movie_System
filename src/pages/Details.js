@@ -2,6 +2,7 @@ import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import requests, { displayImage } from "../utils/requests";
 import axios from "../utils/axios";
+import { Grid, Typography } from "@material-ui/core";
 
 class Details extends Component {
   constructor() {
@@ -42,37 +43,52 @@ class Details extends Component {
       runtime,
       backdrop_path,
     } = this.state.movie;
-    const { key } = this.state.trailer;
+    const key = this.state.trailer
+    
 
     return (
       <section>
-        <div style={{ display: "flex" }}>
-          <div style={{ maxWidth: "50vw" }}>
-            <h2>
-              <a href={homepage}>{title || name}</a>
-            </h2>
-            <ul>
-              {genres.map((genre) => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </ul>
-            <p>{overview}</p>
-            <div>Released: {release_date}</div>
-            <div>Runtime: {runtime}</div>
-          </div>
-          <div style={{ maxWidth: "50vw" }}>
-            <img
-              style={{ width: "100%" }}
-              src={displayImage(backdrop_path)}
-              alt={title || name}
-            />
-          </div>
+        <div>
+          <Grid container>
+            <Grid item xs={7} style={{textAlign:"center"}}>
+              <img
+                style={{width: "80%", padding: "5px 0px 5px 0px" }}
+                src={displayImage(backdrop_path)}
+                alt={title || name}
+              />
+            </Grid>
+            <Grid item xs={5} style={{padding: "5px"}}>
+              <h2>
+                <a href={homepage}>{title || name}</a>
+              </h2>
+              <ul>
+                {genres.map((genre) => (
+                  <li key={genre.id}>{genre.name}</li>
+                ))}
+              </ul>
+              <p>{overview}</p>
+              <div>Released: {release_date}</div>
+              <div>Runtime: {runtime}</div>
+            </Grid>
+          </Grid>
         </div>
-        <iframe
-          style={{ maxWidth: "100vw", maxHeight: "100vw" }}
-          title={this.state.trailer.name}
-          src={`https://www.youtube.com/embed/${key}`}
-        ></iframe>
+        <div>
+          <Grid container>
+            <Grid item xs={3} />
+            <Grid item xs={6}>
+              {this.state.trailer ? (
+                <iframe
+                  style={{ width: "600px", height: "400px" }}
+                  title={this.state.trailer.name}
+                  src={`https://www.youtube.com/embed/${key.key}`}
+                ></iframe>
+              ) : (
+                <Typography>Trailer not available</Typography>
+              )}
+            </Grid>
+            <Grid item xs={3} />
+          </Grid>
+        </div>
       </section>
     );
   }
